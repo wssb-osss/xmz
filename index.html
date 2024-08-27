@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米粥的网站</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #E0F7FA, #80DEEA);
+            font-family: "楷体", "华文新魏", Arial, sans-serif;
+            position: relative;
+            margin: 0;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #01579B;
+            margin-top: 60px;
+        }
+
+        /* 日期时间样式 */
+        .date-container {
+            text-align: center;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .date {
+            font-size: 1.5em;
+        }
+
+        .time {
+            font-size: 1.2em;
+        }
+
+        /* 顶部菜单导航栏样式 */
+        .menu {
+            background-color: #0288D1;
+            padding: 10px 20px;
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .menu img {
+            height: 40px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            margin-left: 20px;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+
+        /* 按钮容器 */
+        .button-container {
+            text-align: center;
+            margin: 20px 0 20px;
+        }
+
+        /* 按钮样式 */
+        .button {
+            display: block;
+            background-color: #0288D1;
+            color: white;
+            text-align: center;
+            margin: 10px auto;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            max-width: 300px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1.5em; /* 增大按钮文字 */
+            font-family: "华文新魏", "楷体", Arial, sans-serif;
+        }
+
+        .button:hover {
+            background-color: #0277BD;
+            transform: translateY(-2px);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+            border-radius: 10px;
+            font-family: "华文新魏", "楷体", Arial, sans-serif;
+        }
+
+        .modal input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 1.2em;
+            border: 2px solid #0288D1;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-family: "华文新魏", "楷体", Arial, sans-serif;
+        }
+
+        .modal input[type="text"]:focus {
+            outline: none;
+            border-color: #0277BD;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* 顶部左侧小字样式 */
+        .small-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #01579B;
+            font-size: 0.9em;
+            font-family: "楷体", "华文新魏", Arial, sans-serif;
+        }
+
+        /* 枫叶飘落样式 */
+        .leaf {
+            position: absolute;
+            color: #FF5722;
+            font-size: 16px;
+            animation: fall 7s infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* 引号文字动画 */
+        .quote {
+            text-align: center;
+            font-size: 1.2em;
+            color: #333;
+            margin: 20px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 4px solid;
+            animation: typing 5s steps(30) forwards, blink-caret 0.75s step-end infinite;
+            font-family: "楷体", "华文新魏", Arial, sans-serif;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
+
+        /* 粉色音乐播放器样式 */
+        .music-player {
+            width: 300px;
+            background-color: #F8BBD0;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: absolute;
+            text-align: center;
+            cursor: default;
+            z-index: 1002;
+        }
+
+        .music-player.minimized {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #EC407A;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .music-player.minimized .music-controls,
+        .music-player.minimized audio,
+        .music-player.minimized .close {
+            display: none;
+        }
+
+        .music-player.minimized::before {
+            content: '🎵';
+            font-size: 24px;
+            line-height: 60px;
+            color: white;
+        }
+
+        .music-player .drag-area {
+            height: 20px;
+            background-color: #EC407A;
+            border-radius: 10px 10px 0 0;
+            cursor: move;
+        }
+
+        .music-player audio {
+            width: 100%;
+            margin-bottom: 10px;
+            outline: none;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .music-controls button {
+            background-color: #EC407A;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .music-controls button:hover {
+            background-color: #D81B60;
+        }
+
+        .music-controls button:focus {
+            outline: none;
+        }
+
+        .music-controls .play-pause {
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+        }
+
+        .music-controls .skip {
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu">
+        <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.VTidT86ookFYeoEATcDmRAAAAA?w=110&h=169&c=7&r=0&o=5&pid=1.7" alt="Logo">
+        <a href="https://github.com/0xDrMoe/TownofHost-Enhanced/releases" target="_blank">TOHE仓库</a>
+    </div>
+
+    <h1>小米粥的网站</h1>
+
+    <div class="date-container">
+        <div class="date" id="date"></div> <!-- 显示日期 -->
+        <div class="time" id="time"></div> <!-- 显示时间 -->
+    </div>
+
+    <div class="button-container">
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-gNrA3', '_blank')">我制作的小东东</button>
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-FNrA3', '_blank')">工具分享</button>
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-YNrA3', '_blank')">模组分享</button>
+        <button class="button" onclick="window.open('https://space.bilibili.com/2036031763?spm_id_from=333.1007.0.0', '_blank')">关注我的哔哩哔哩账号</button>
+        <button class="button" id="friendsBtn">我的朋友</button>
+    </div>
+
+    <div class="small-text">中国万岁</div>
+
+    <div id="keyInputModal" class="modal">
+        <div class="modal-content">
+            <h2>输入卡密</h2>
+            <input type="text" id="keyInput" placeholder="请输入卡密" />
+            <button class="button" onclick="checkKey()">确认</button>
+            <p id="errorMessage" style="color: red;"></p>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>小米粥</h2>
+            <p>一个up罢了</p>
+        </div>
+    </div>
+
+    <div id="friendsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFriendsModal()">&times;</span>
+            <h2>我最好的朋友</h2>
+            <p>土人   xqw  香蕉</p>
+        </div>
+    </div>
+
+    <p class="quote" id="quote"></p>
+
+    <!-- 粉色音乐播放器 -->
+    <div id="musicPlayer" class="music-player">
+        <div class="drag-area"></div>
+        <span class="close" onclick="toggleMinimize()">×</span>
+        <audio id="audioPlayer" controls>
+            <source src="1.mp3" type="audio/mp3">
+            您的浏览器不支持 audio 元素。
+        </audio>
+        <div class="music-controls">
+            <button class="skip" onclick="playPrevious()">⏮️</button>
+            <button class="play-pause" onclick="togglePlayPause()">⏸️</button>
+            <button class="skip" onclick="playNext()">⏭️</button>
+        </div>
+    </div>
+
+    <script>
+        let attemptCount = 0; // 记录尝试次数
+        const correctKey = "byd"; // 正确的卡密
+        const musicPlayer = document.getElementById('musicPlayer');
+        const dragArea = document.querySelector('.drag-area');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseButton = document.querySelector('.play-pause');
+        const playlist = ['1.mp3', '2.MP3', '3.MP3', '4.mp3','5.mp3', '6.MP3', '7.MP3'];
+        let currentTrack = 0;
+
+        // 初始化播放器
+        audioPlayer.src = playlist[currentTrack];
+
+        // 拖拽功能
+        let offsetX, offsetY;
+
+        dragArea.onmousedown = function(event) {
+            if (!musicPlayer.classList.contains('minimized')) {
+                offsetX = event.clientX - musicPlayer.getBoundingClientRect().left;
+                offsetY = event.clientY - musicPlayer.getBoundingClientRect().top;
+
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+            }
+        };
+
+        function onMouseMove(event) {
+            musicPlayer.style.left = event.clientX - offsetX + 'px';
+            musicPlayer.style.top = event.clientY - offsetY + 'px';
+        }
+
+        function onMouseUp() {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+        }
+
+        musicPlayer.ondragstart = function() {
+            return false;
+        };
+
+        // 播放下一首音乐
+        function playNext() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            audioPlayer.src = playlist[currentTrack];
+            audioPlayer.play();
+            updatePlayPauseIcon();
+        }
+
+        // 播放上一首音乐
+        function playPrevious() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            audioPlayer.src = playlist[currentTrack];
+            audioPlayer.play();
+            updatePlayPauseIcon();
+        }
+
+        // 播放/暂停功能
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseButton.textContent = '⏸️';
+            } else {
+                audioPlayer.pause();
+                playPauseButton.textContent = '▶️';
+            }
+        }
+
+        function updatePlayPauseIcon() {
+            if (audioPlayer.paused) {
+                playPauseButton.textContent = '▶️';
+            } else {
+                playPauseButton.textContent = '⏸️';
+            }
+        }
+
+        audioPlayer.addEventListener('ended', playNext);
+
+        // 切换最小化模式
+        function toggleMinimize() {
+            musicPlayer.classList.toggle('minimized');
+        }
+
+        // 页面加载时显示卡密窗口
+        window.onload = function() {
+            showKeyInputModal();
+            setQuote();
+            setInterval(createLeaf, 1000);
+        };
+
+        // 日期和时间更新
+        function updateDateTime() {
+            const now = new Date();
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+            document.getElementById('date').textContent = now.toLocaleDateString('zh-CN', dateOptions);
+            document.getElementById('time').textContent = now.toLocaleTimeString('zh-CN', timeOptions);
+        }
+
+        setInterval(updateDateTime, 1000); // 每秒更新一次
+
+        function showModal() {
+            document.getElementById("myModal").style.display = "block";
+        };
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // 卡密窗口
+        function showKeyInputModal() {
+            document.getElementById("keyInputModal").style.display = "block";
+        }
+
+        function checkKey() {
+            const key = document.getElementById("keyInput").value;
+            const errorMessage = document.getElementById("errorMessage");
+
+            if (key === "") {
+                errorMessage.textContent = "卡密不能为空";
+            } else if (key !== correctKey) {
+                attemptCount++;
+                errorMessage.textContent = "卡密错误，请重新输入";
+                if (attemptCount >= 3) {
+                    alert("错误次数过多，您将被退出网站");
+                    window.location.href = "about:blank"; // 强制退出
+                }
+            } else {
+                errorMessage.textContent = "";
+                alert("卡密已提交");
+                document.getElementById("keyInputModal").style.display = "none";
+            }
+        }
+
+        function setQuote() {
+            const quotes = [
+                "努力工作，享受生活",
+                "每一天都是新的开始",
+                "生活是美好的"
+            ];
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').textContent = quotes[randomIndex];
+        }
+
+        function createLeaf() {
+            const leaf = document.createElement('div');
+            leaf.className = 'leaf';
+            leaf.textContent = '🍁';
+            leaf.style.left = Math.random() * 100 + 'vw';
+            leaf.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(leaf);
+
+            // 移除动画完成后的叶子元素
+            setTimeout(() => {
+                leaf.remove();
+            }, 7000);
+        }
+
+        document.getElementById('friendsBtn').onclick = function() {
+            document.getElementById('friendsModal').style.display = 'block';
+        };
+
+        function closeFriendsModal() {
+            document.getElementById('friendsModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
