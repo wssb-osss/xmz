@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米粥的网站</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #E0F7FA, #FFFFFF);
+            font-family: "华文仿宋", Arial, sans-serif;
+            margin: 0;
+            padding-top: 60px;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏样式 */
+        .menu {
+            background-color: #0288D1;
+            color: white;
+            font-size: 1.2em;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 15px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu img {
+            height: 40px;
+            vertical-align: middle;
+            margin-left: 20px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            margin-left: 30px;
+            transition: color 0.3s;
+        }
+
+        .menu a:hover {
+            color: #FFC107;
+        }
+
+        /* 标题样式 */
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #01579B;
+            margin-top: 30px;
+            font-weight: bold;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* 日期时间样式 */
+        .date-container {
+            text-align: center;
+            color: #01579B;
+            margin: 20px 0;
+        }
+
+        .date {
+            font-size: 2.5em; /* 增大日期字体 */
+            font-weight: bold; /* 加粗日期字体 */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+            font-family: "华文中宋", Arial, sans-serif; /* 更改字体样式 */
+        }
+
+        .time {
+            font-size: 2em; /* 增大时间字体 */
+            font-weight: bold; /* 加粗时间字体 */
+            color: #0277BD; /* 更改字体颜色 */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 添加阴影 */
+            font-family: "华文中宋", Arial, sans-serif; /* 更改字体样式 */
+        }
+
+        /* 按钮容器 */
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* 按钮样式 */
+        .button {
+            display: block;
+            background-color: #0288D1;
+            color: white;
+            text-align: center;
+            margin: 10px auto;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 50%;
+            max-width: 300px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1.2em;
+            font-family: "华文仿宋", Arial, sans-serif;
+        }
+
+        .button:hover {
+            background-color: #0277BD;
+            transform: translateY(-2px);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            font-family: "华文仿宋", Arial, sans-serif;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+        }
+
+        /* 顶部左侧小字样式 */
+        .small-text {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #01579B;
+            font-size: 0.9em;
+            font-family: "华文仿宋", Arial, sans-serif;
+            background-color: rgba(224, 247, 250, 0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 引号文字动画 */
+        .quote {
+            text-align: center;
+            font-size: 1.5em;
+            color: #333;
+            margin: 30px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 4px solid;
+            animation: typing 5s steps(30) forwards, blink-caret 0.75s step-end infinite;
+            font-family: "华文仿宋", Arial, sans-serif;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
+
+        /* 背景图样式 */
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-image: url('your-image-url.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: 999;
+            filter: brightness(0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景图片 -->
+    <div class="background-image"></div>
+
+    <!-- 导航栏 -->
+    <div class="menu">
+        <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.VTidT86ookFYeoEATcDmRAAAAA?w=110&h=169&c=7&r=0&o=5&pid=1.7" alt="Logo">
+        <a href="index.html">首页</a>
+        <a href="resource-sharing.html">资源分享</a>
+        <a href="group-chat.html">群聊</a>
+    </div>
+
+    <h1>小米粥的网站</h1>
+
+    <div class="date-container">
+        <div class="date" id="date"></div>
+        <div class="time" id="time"></div>
+    </div>
+
+    <div class="button-container">
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-gNrA3', '_blank')">我制作的小东东</button>
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-FNrA3', '_blank')">工具分享</button>
+        <button class="button" onclick="window.open('https://www.123pan.cn/s/j1EBjv-YNrA3', '_blank')">模组分享</button>
+        <button class="button" onclick="window.open('https://space.bilibili.com/2036031763?spm_id_from=333.1007.0.0', '_blank')">关注我的哔哩哔哩账号</button>
+        <button class="button" id="friendsBtn">我的朋友</button>
+    </div>
+
+    <div class="small-text">中国万岁</div>
+
+    <!-- “我的朋友”模态框 -->
+    <div id="friendsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeFriendsModal()">&times;</span>
+            <h2>我的朋友</h2>
+            <p>土人 xqw 香蕉</p>
+        </div>
+    </div>
+
+    <div class="quote">
+        <p>“生活就像一盒巧克力，你永远不知道下一颗会是什么味道。”</p>
+    </div>
+
+    <script>
+        // 显示日期和时间
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('date').textContent = now.toLocaleDateString('zh-CN');
+            document.getElementById('time').textContent = now.toLocaleTimeString('zh-CN');
+        }
+
+        // 初次调用，之后每秒更新一次
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+        // 打开和关闭“我的朋友”模态框
+        function openFriendsModal() {
+            document.getElementById('friendsModal').style.display = 'block';
+        }
+
+        function closeFriendsModal() {
+            document.getElementById('friendsModal').style.display = 'none';
+        }
+
+        document.getElementById('friendsBtn').onclick = openFriendsModal;
+    </script>
+</body>
+</html>
