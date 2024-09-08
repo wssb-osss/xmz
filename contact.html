@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板 - 夏依凡的个人博客</title>
+    <!-- 添加网站图标 -->
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <!-- 顶部导航栏（双级导航栏） -->
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li>
+                    <a href="#">更多</a>
+                    <ul class="dropdown">
+                        <li><a href="gallery.html">相册</a></li>
+                        <li><a href="about.html">关于我</a></li>
+                        <li><a href="contact.html">留言板</a></li>
+                    </ul>
+                </li>
+                <li><a href="#" id="say-something-btn">我想说</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 留言板内容 -->
+    <section class="contact-section">
+        <h1>留言板</h1>
+        <form class="contact-form" id="contact-form">
+            <div class="form-group">
+                <label for="name">姓名：</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱：</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">留言内容：</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">提交留言</button>
+        </form>
+        <div id="success-message" class="success-message" style="display: none;">
+            感谢您的留言！我们会尽快回复。
+        </div>
+    </section>
+
+    <!-- 密码验证弹窗 -->
+    <div id="password-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>请输入密码</h2>
+            <input type="password" id="password-input" placeholder="请输入密码">
+            <button id="password-submit-btn" class="submit-btn">确认</button>
+        </div>
+    </div>
+
+    <!-- 正确密码输入后的朋友窗口 -->
+    <div id="friend-modal" class="modal friend-modal">
+        <div class="modal-content friend-content">
+            <span class="close-btn">&times;</span>
+            <h2>朋友</h2>
+            <p>x g s z z 我们永不分离</p>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>&copy; 2024 夏依凡的个人博客. 保留所有权利.</p>
+    </footer>
+</body>
+
+</html>
